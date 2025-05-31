@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us</title>
+    <style>
+      /* General Styles */
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: rgb(42, 30, 94);
+      }
+      /* Header */
+
+      header {
+        background-color: black;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      nav {
+        text-align: right;
+      }
+
+      nav a {
+        margin: 0 15px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      nav a:hover {
+        text-decoration: underline;
+      }
+      /* Contact Section Layout */
+
+      .contact-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 900px;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        margin: 50px auto;
+      }
+      /* Animation Section */
+
+      .animation-container {
+        flex: 1;
+        text-align: center;
+      }
+
+      .girl-laptop {
+        width: 400px;
+        height: auto;
+        animation: floatAnimation 2.5s infinite alternate ease-in-out;
+      }
+
+      @keyframes floatAnimation {
+        0% {
+          transform: translateY(0px);
+        }
+        100% {
+          transform: translateY(-10px);
+        }
+      }
+      /* Contact Form */
+
+      .form-container {
+        flex: 1;
+        padding: 20px;
+        background: #f5f5f5;
+        border-radius: 10px;
+        text-align: left;
+      }
+
+      .form-container h2 {
+        margin-bottom: 15px;
+      }
+
+      .form-container input,
+      .form-container textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+
+      button {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+      /* Responsive Design */
+
+      @media (max-width: 768px) {
+        .contact-container {
+          flex-direction: column;
+          text-align: center;
+        }
+        .animation-container {
+          order: -1;
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Welcome to My Portfolio</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="skills.html">Skill</a>
+        <a href="project.html">Projects</a>
+        <a href="about.html">About Me</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <div class="contact-container">
+      <!-- Left Animation -->
+      <div class="animation-container">
+        <img src="image.png" alt="Girl Working on Laptop" class="girl-laptop" />
+      </div>
+
+      <!-- Contact Form -->
+      <div class="form-container">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="email" name="email" placeholder="Your Email" required />
+          <input type="tel" name="phone" placeholder="Your Phone" required />
+          <textarea
+            name="message"
+            placeholder="Your Message"
+            required
+          ></textarea>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = {
+            name: document.querySelector("input[name='name']").value,
+            email: document.querySelector("input[name='email']").value,
+            phone: document.querySelector("input[name='phone']").value,
+            message: document.querySelector("textarea[name='message']").value,
+          };
+
+          const response = await fetch("http://127.0.0.1:5001/send-mail", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          const result = await response.json();
+          alert(result.message || result.error);
+        });
+    </script>
+  </body>
+</html>
